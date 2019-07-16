@@ -18,6 +18,8 @@ const GlobalStyle = createGlobalStyle`
     body {
         font-size: 1.6rem;
         font-family: 'Open Sans', sans-serif;
+        background-color: #FFFFFF;
+        padding-top: 2px;
     }
 `;
 
