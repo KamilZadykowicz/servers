@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 import GlobalStyle from 'theme/GlobalStyle';
 import Header from 'components/Header';
 import TopBar from 'components/TopBar';
 import Table from 'components/Table';
-import {fetchServers} from 'helpers';
+import { fetchServers } from 'helpers';
 
 const Container = styled.div`
   margin-left: auto;
@@ -21,30 +21,29 @@ const Container = styled.div`
   }
 `;
 
-class App extends Component{
+class App extends Component {
   state = {
-    servers: []
-  }
+    servers: [],
+  };
   componentDidMount() {
-    fetchServers()
-    .then(servers => {
+    fetchServers().then(servers => {
       this.setState({
-        servers
-      })
-    })
+        servers,
+      });
+    });
   }
-  render(){
+  render() {
     return (
       <>
-        <GlobalStyle/>
-        <Header/>
+        <GlobalStyle />
+        <Header />
         <Container>
-          <TopBar  serversQty={this.state.servers.length}/>
-          <Table servers={this.state.servers}/>
+          <TopBar serversQty={this.state.servers.length} />
+          <Table servers={this.state.servers} />
         </Container>
       </>
-    )
+    );
   }
-};
+}
 
 export default App;
