@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import ItemEdit from 'components/ItemEdit';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import circle from 'assets/circle.svg';
+import cross from 'assets/cross.svg';
 
 const StyledRow = styled.div`
   display: flex;
@@ -47,6 +49,41 @@ const StyledStatus = styled.p`
   color: #24a1a9;
   font-size: 13px;
   font-weight: 600;
+  ${({ status }) =>
+    status === 'ONLINE' &&
+    css`
+      color: #24a1a9;
+      &:before {
+        content: '';
+        background-image: url(${circle});
+        background-size: cover;
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        margin-right: 10px;
+      }
+    `}
+  ${({ status }) =>
+    status === 'OFFLINE' &&
+    css`
+      color: #494e61;
+      &:before {
+        content: '';
+        background-image: url(${cross});
+        background-size: cover;
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        margin-right: 10px;
+      }
+    `}
+  ${({ status }) =>
+    status === 'REBOOTING' &&
+    css`
+      &:after {
+        content: '...';
+      }
+    `}
 `;
 const StyledBtn = styled.button`
   display: block;
@@ -100,7 +137,7 @@ class TableItem extends Component {
           <StyledName>{name}</StyledName>
         </StyledCol1>
         <StyledCol2>
-          <StyledStatus>{status}</StyledStatus>
+          <StyledStatus status={status}>{status}</StyledStatus>
         </StyledCol2>
         <StyledCol3>
           <StyledBtn onClick={this.showEditServer}>
