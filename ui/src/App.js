@@ -24,11 +24,19 @@ const Container = styled.div`
 class App extends Component {
   state = {
     servers: [],
+    filteredName: '',
+  };
+  handleFilterPosition = event => {
+    const filteredName = event.target.value;
+    this.setState({
+      filteredName,
+    });
   };
   componentDidMount() {
     fetchServers().then(servers => {
       this.setState({
         servers,
+        filteredQty: servers.length,
       });
     });
   }
@@ -38,8 +46,12 @@ class App extends Component {
         <GlobalStyle />
         <Header />
         <Container>
-          <TopBar serversQty={this.state.servers.length} />
-          <Table servers={this.state.servers} />
+          <TopBar
+            serversQty={this.state.servers.length}
+            filteredName={this.state.filteredName}
+            handleFilterPosition={this.handleFilterPosition}
+          />
+          <Table servers={this.state.servers} filteredName={this.state.filteredName} />
         </Container>
       </>
     );

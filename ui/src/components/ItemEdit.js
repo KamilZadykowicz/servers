@@ -25,7 +25,7 @@ const StyledBtn = styled.p`
 
 const ItemEdit = ({ status, showEditServer }) => {
   return (
-    <StyledWrapper>
+    <StyledWrapper onBlur={showEditServer}>
       {status === 'ONLINE' ? (
         <>
           <StyledBtn onClick={showEditServer}>Turn off</StyledBtn>

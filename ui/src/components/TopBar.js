@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Filter from 'components/Filter';
 // import magnifying from 'assets/magnifying-glass.svg';
 
 const TopBarWrapper = styled.div`
@@ -31,14 +32,18 @@ const TopBarText = styled.p`
   }
 `;
 
-const TopBar = ({ serversQty }) => {
+const TopBar = ({ serversQty, filteredQty, filteredName, handleFilterPosition }) => {
   return (
     <TopBarWrapper>
       <TopBarLeft>
         <TopBarTitle>Servers</TopBarTitle>
-        <TopBarText>Number of elements: {serversQty}</TopBarText>
+        <TopBarText>
+          Number of elements: {filteredQty !== serversQty ? filteredQty : null} {serversQty}
+        </TopBarText>
       </TopBarLeft>
-      <TopBarRight>input</TopBarRight>
+      <TopBarRight>
+        <Filter filteredName={filteredName} handleFilterPosition={handleFilterPosition} />
+      </TopBarRight>
     </TopBarWrapper>
   );
 };
