@@ -84,6 +84,7 @@ class TableItem extends Component {
       edit: !prevState.edit,
     }));
   };
+
   hideEditServer = () => {
     this.setState({
       edit: false,
@@ -92,6 +93,7 @@ class TableItem extends Component {
 
   render() {
     const { name, status } = this.props;
+    const { edit } = this.state;
     return (
       <StyledRow>
         <StyledCol1>
@@ -107,7 +109,7 @@ class TableItem extends Component {
             <StyledBtnIcon />
           </StyledBtn>
         </StyledCol3>
-        {this.state.edit && status !== 'REBOOTING' ? (
+        {edit && status !== 'REBOOTING' ? (
           <ItemEdit showEditServer={this.showEditServer} status={status} />
         ) : null}
       </StyledRow>

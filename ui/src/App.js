@@ -26,32 +26,39 @@ class App extends Component {
     servers: [],
     filteredName: '',
   };
+
+  componentDidMount() {
+    fetchServers().then(servers => {
+      this.setState({
+        servers,
+      });
+    });
+  }
+
   handleFilterPosition = event => {
     const filteredName = event.target.value;
     this.setState({
       filteredName,
     });
   };
-  componentDidMount() {
-    fetchServers().then(servers => {
-      this.setState({
-        servers,
-        filteredQty: servers.length,
-      });
-    });
-  }
+
   render() {
+    const {
+      filteredName,
+      servers,
+      servers: { length },
+    } = this.state;
     return (
       <>
         <GlobalStyle />
         <Header />
         <Container>
           <TopBar
-            serversQty={this.state.servers.length}
-            filteredName={this.state.filteredName}
+            serversQty={length}
+            filteredName={filteredName}
             handleFilterPosition={this.handleFilterPosition}
           />
-          <Table servers={this.state.servers} filteredName={this.state.filteredName} />
+          <Table servers={servers} filteredName={filteredName} />
         </Container>
       </>
     );
