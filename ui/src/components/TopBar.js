@@ -18,7 +18,7 @@ const TopBarRight = styled.div`
 
 const TopBarTitle = styled.h3`
   color: #494e61;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   @media only screen and (min-width: 992px) {
     font-size: 21px;
@@ -26,7 +26,7 @@ const TopBarTitle = styled.h3`
 `;
 const TopBarText = styled.p`
   color: #494e61;
-  font-size: 13px;
+  font-size: 12px;
   @media only screen and (min-width: 992px) {
     font-size: 15px;
   }

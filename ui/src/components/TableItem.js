@@ -42,12 +42,15 @@ const StyledCol3 = styled.div`
 `;
 const StyledName = styled.p`
   color: #494e61;
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 600;
+  @media only screen and (min-width: 992px) {
+    font-size: 13px;
+  }
 `;
 const StyledStatus = styled.p`
   color: #24a1a9;
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 600;
   ${({ status }) =>
     status === 'ONLINE' &&
@@ -84,6 +87,9 @@ const StyledStatus = styled.p`
         content: '...';
       }
     `}
+  @media only screen and (min-width: 992px) {
+    font-size: 13px;
+  }
 `;
 const StyledBtn = styled.button`
   display: block;

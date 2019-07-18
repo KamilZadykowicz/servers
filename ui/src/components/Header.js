@@ -4,11 +4,16 @@ import Logo from 'components/Logo';
 
 const HeaderStyled = styled.header`
   background-color: #494e61;
-  padding-top: 15px;
-  padding-bottom: 15px;
   display: flex;
   justify-content: flex-start;
-  margin-bottom: 42px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  @media only screen and (min-width: 992px) {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin-bottom: 40px;
+  }
 `;
 
 const Header = () => {

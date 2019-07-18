@@ -42,8 +42,11 @@ const StyledCol3 = styled.div`
 `;
 const StyledTitle = styled.p`
   color: #9ca7d3;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 600;
+  @media only screen and (min-width: 992px) {
+    font-size: 14px;
+  }
 `;
 
 const Table = props => {
