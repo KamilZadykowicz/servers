@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const serversUrl = 'http://localhost:4454/servers';
+const serversUrl = process.env.REACT_APP_URL_API;
 
 export const fetchServers = () =>
   axios.get(serversUrl).then(response => {
