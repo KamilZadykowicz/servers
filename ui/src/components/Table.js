@@ -49,10 +49,17 @@ const StyledTitle = styled.p`
   }
 `;
 
-const Table = ({ servers }) => {
+const Table = ({ servers, handleTurnOnServer, handleTurnOffServer }) => {
   const tableShow = () => {
     return servers.map(server => (
-      <TableItem key={server.id} id={server.id} name={server.name} status={server.status} />
+      <TableItem
+        key={server.id}
+        id={server.id}
+        name={server.name}
+        status={server.status}
+        handleTurnOnServer={handleTurnOnServer}
+        handleTurnOffServer={handleTurnOffServer}
+      />
     ));
   };
 

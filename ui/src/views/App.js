@@ -4,7 +4,7 @@ import GlobalStyle from 'theme/GlobalStyle';
 import Header from 'components/Header';
 import TopBar from 'components/TopBar';
 import Table from 'components/Table';
-import { fetchServers } from 'helpers';
+import { fetchServers, turnOnServer, turnOffServer } from 'helpers';
 import { theme } from 'theme/mainTheme';
 
 const Container = styled.div`
@@ -33,22 +33,72 @@ class App extends Component {
     fetchServers().then(servers => {
       this.setState({
         servers,
-        serversInit: servers
+        serversInit: servers,
       });
     });
   }
 
   handleFilterPosition = event => {
     const filteredName = event.target.value;
-    const {serversInit} = this.state;
+    const { serversInit } = this.state;
     const servers = serversInit.filter(
       server => server.name.toLowerCase().indexOf(filteredName.toLowerCase().trim()) > -1,
     );
     this.setState({
       filteredName,
-      servers
+      servers,
     });
   };
+
+  /* eslint-disable no-param-reassign */
+  handleTurnOnServer = id => {
+    turnOnServer(id).then(resp => {
+      const { servers, serversInit } = this.state;
+
+      const updatedServers = servers.map(server => {
+        if (server.id === resp.id) {
+          server.status = resp.status;
+        }
+        return server;
+      });
+      const updatedInitServers = serversInit.map(server => {
+        if (server.id === resp.id) {
+          server.status = resp.status;
+        }
+        return server;
+      });
+      this.setState({
+        servers: updatedServers,
+        serversInit: updatedInitServers,
+      });
+    });
+  };
+  /* eslint-enable no-param-reassign */
+
+  /* eslint-disable no-param-reassign */
+  handleTurnOffServer = id => {
+    turnOffServer(id).then(resp => {
+      const { servers, serversInit } = this.state;
+
+      const updatedServers = servers.map(server => {
+        if (server.id === resp.id) {
+          server.status = resp.status;
+        }
+        return server;
+      });
+      const updatedInitServers = serversInit.map(server => {
+        if (server.id === resp.id) {
+          server.status = resp.status;
+        }
+        return server;
+      });
+      this.setState({
+        servers: updatedServers,
+        serversInit: updatedInitServers,
+      });
+    });
+  };
+  /* eslint-enable no-param-reassign */
 
   render() {
     const {
@@ -63,11 +113,13 @@ class App extends Component {
           <>
             <Header />
             <Container>
-              <TopBar
-                serversQty={length}
-                handleFilterPosition={this.handleFilterPosition}
+              <TopBar serversQty={length} handleFilterPosition={this.handleFilterPosition} />
+              <Table
+                servers={servers}
+                filteredName={filteredName}
+                handleTurnOnServer={this.handleTurnOnServer}
+                handleTurnOffServer={this.handleTurnOffServer}
               />
-              <Table servers={servers} filteredName={filteredName} />
             </Container>
           </>
         </ThemeProvider>

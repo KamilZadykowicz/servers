@@ -23,16 +23,24 @@ const StyledBtn = styled.p`
   }
 `;
 
-const ItemEdit = ({ status, showEditServer }) => {
+const ItemEdit = ({ status, showEditServer, handleTurnOnServer, handleTurnOffServer, id }) => {
+  const turnOn = () => {
+    handleTurnOnServer(id);
+    showEditServer();
+  };
+  const turnOff = () => {
+    handleTurnOffServer(id);
+    showEditServer();
+  };
   return (
     <StyledWrapper onBlur={showEditServer}>
       {status === 'ONLINE' ? (
         <>
-          <StyledBtn onClick={showEditServer}>Turn off</StyledBtn>
+          <StyledBtn onClick={turnOff}>Turn off</StyledBtn>
           <StyledBtn onClick={showEditServer}>Reboot</StyledBtn>
         </>
       ) : (
-        <StyledBtn onClick={showEditServer}>Turn on</StyledBtn>
+        <StyledBtn onClick={turnOn}>Turn on</StyledBtn>
       )}
     </StyledWrapper>
   );

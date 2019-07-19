@@ -135,7 +135,7 @@ class TableItem extends Component {
   };
 
   render() {
-    const { name, status } = this.props;
+    const { name, status, handleTurnOnServer, handleTurnOffServer, id } = this.props;
     const { edit } = this.state;
     return (
       <StyledRow>
@@ -153,7 +153,13 @@ class TableItem extends Component {
           </StyledBtn>
         </StyledCol3>
         {edit && status !== 'REBOOTING' ? (
-          <ItemEdit showEditServer={this.showEditServer} status={status} />
+          <ItemEdit
+            id={id}
+            showEditServer={this.showEditServer}
+            status={status}
+            handleTurnOnServer={handleTurnOnServer}
+            handleTurnOffServer={handleTurnOffServer}
+          />
         ) : null}
       </StyledRow>
     );
