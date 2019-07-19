@@ -41,21 +41,21 @@ const StyledCol3 = styled.div`
   }
 `;
 const StyledName = styled.p`
-  color: #494e61;
-  font-size: 11px;
-  font-weight: 600;
+  color: ${({ theme }) => theme.colorPrimary};
+  font-size: 1.1rem;
+  font-weight: ${({ theme }) => theme.fontBold};
   @media only screen and (min-width: 992px) {
-    font-size: 13px;
+    font-size: 1.3rem;
   }
 `;
 const StyledStatus = styled.p`
-  color: #24a1a9;
-  font-size: 11px;
-  font-weight: 600;
+  color: ${({ theme }) => theme.colorStatus};
+  font-size: 1.1rem;
+  font-weight: ${({ theme }) => theme.fontBold};
   ${({ status }) =>
     status === 'ONLINE' &&
     css`
-      color: #24a1a9;
+      color: ${({ theme }) => theme.colorStatus};
       &:before {
         content: '';
         background-image: url(${circle});
@@ -69,7 +69,7 @@ const StyledStatus = styled.p`
   ${({ status }) =>
     status === 'OFFLINE' &&
     css`
-      color: #494e61;
+      color: ${({ theme }) => theme.colorPrimary};
       &:before {
         content: '';
         background-image: url(${cross});
@@ -88,7 +88,7 @@ const StyledStatus = styled.p`
       }
     `}
   @media only screen and (min-width: 992px) {
-    font-size: 13px;
+    font-size: 1.3rem;
   }
 `;
 const StyledBtn = styled.button`
@@ -109,7 +109,7 @@ const StyledBtn = styled.button`
   }
 `;
 const StyledBtnIcon = styled.span`
-  background-color: #9ca7d3;
+  background-color: ${({ theme }) => theme.colorSecondary};
   width: 4px;
   height: 4px;
   border-radius: 50%;

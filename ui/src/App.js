@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 import GlobalStyle from 'theme/GlobalStyle';
 import Header from 'components/Header';
 import TopBar from 'components/TopBar';
 import Table from 'components/Table';
 import { fetchServers } from 'helpers';
+import { theme } from 'theme/mainTheme';
 
 const Container = styled.div`
   margin-left: auto;
@@ -51,15 +52,19 @@ class App extends Component {
     return (
       <>
         <GlobalStyle />
-        <Header />
-        <Container>
-          <TopBar
-            serversQty={length}
-            filteredName={filteredName}
-            handleFilterPosition={this.handleFilterPosition}
-          />
-          <Table servers={servers} filteredName={filteredName} />
-        </Container>
+        <ThemeProvider theme={theme}>
+          <>
+            <Header />
+            <Container>
+              <TopBar
+                serversQty={length}
+                filteredName={filteredName}
+                handleFilterPosition={this.handleFilterPosition}
+              />
+              <Table servers={servers} filteredName={filteredName} />
+            </Container>
+          </>
+        </ThemeProvider>
       </>
     );
   }

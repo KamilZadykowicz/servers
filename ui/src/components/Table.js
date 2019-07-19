@@ -41,11 +41,11 @@ const StyledCol3 = styled.div`
   }
 `;
 const StyledTitle = styled.p`
-  color: #9ca7d3;
-  font-size: 12px;
-  font-weight: 600;
+  color: ${({ theme }) => theme.colorSecondary};
+  font-size: 1.2rem;
+  font-weight: ${({ theme }) => theme.fontBold};
   @media only screen and (min-width: 992px) {
-    font-size: 14px;
+    font-size: 1.4rem;
   }
 `;
 

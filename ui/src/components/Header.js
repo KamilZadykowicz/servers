@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Logo from 'components/Logo';
 
 const HeaderStyled = styled.header`
-  background-color: #494e61;
+  background-color: ${({ theme }) => theme.colorPrimary};
   display: flex;
   justify-content: flex-start;
   padding-top: 10px;

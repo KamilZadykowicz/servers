@@ -13,9 +13,9 @@ const StyledWrapper = styled.div`
 
 const StyledBtn = styled.p`
   background-color: #ffffff;
-  color: #494e61;
-  font-size: 13px;
-  font-weight: 600;
+  color: ${({ theme }) => theme.colorPrimary};
+  font-size: 1.3rem;
+  font-weight: ${({ theme }) => theme.fontBold};
   padding: 20px 20px;
   &:hover {
     background-color: #f2f3f6;

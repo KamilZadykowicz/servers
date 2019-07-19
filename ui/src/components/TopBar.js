@@ -17,18 +17,18 @@ const TopBarRight = styled.div`
 `;
 
 const TopBarTitle = styled.h3`
-  color: #494e61;
-  font-size: 16px;
-  font-weight: 600;
+  color: ${({ theme }) => theme.colorPrimary};
+  font-size: 1.6rem;
+  font-weight: ${({ theme }) => theme.fontBold};
   @media only screen and (min-width: 992px) {
-    font-size: 21px;
+    font-size: 2.1rem;
   }
 `;
 const TopBarText = styled.p`
-  color: #494e61;
-  font-size: 12px;
+  color: ${({ theme }) => theme.colorPrimary};
+  font-size: 1.2rem;
   @media only screen and (min-width: 992px) {
-    font-size: 15px;
+    font-size: 1.5rem;
   }
 `;
 
