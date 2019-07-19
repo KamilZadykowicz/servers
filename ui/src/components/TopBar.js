@@ -32,7 +32,7 @@ const TopBarText = styled.p`
   }
 `;
 
-const TopBar = ({ serversQty, filteredQty, filteredName, handleFilterPosition }) => {
+const TopBar = ({ serversQty, filteredQty, handleFilterPosition }) => {
   return (
     <TopBarWrapper>
       <TopBarLeft>
@@ -42,7 +42,7 @@ const TopBar = ({ serversQty, filteredQty, filteredName, handleFilterPosition })
         </TopBarText>
       </TopBarLeft>
       <TopBarRight>
-        <Filter filteredName={filteredName} handleFilterPosition={handleFilterPosition} />
+        <Filter handleFilterPosition={handleFilterPosition} />
       </TopBarRight>
     </TopBarWrapper>
   );

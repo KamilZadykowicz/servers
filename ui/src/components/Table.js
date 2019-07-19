@@ -49,19 +49,8 @@ const StyledTitle = styled.p`
   }
 `;
 
-const Table = props => {
-  let { servers } = props;
-
-  const findName = () => {
-    if (props.filteredName !== '') {
-      servers = servers.filter(
-        server => server.name.toLowerCase().indexOf(props.filteredName.toLowerCase().trim()) > -1,
-      );
-    }
-  };
-
+const Table = ({ servers }) => {
   const tableShow = () => {
-    findName();
     return servers.map(server => (
       <TableItem key={server.id} id={server.id} name={server.name} status={server.status} />
     ));

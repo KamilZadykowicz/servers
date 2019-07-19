@@ -24,6 +24,7 @@ const Container = styled.div`
 
 class App extends Component {
   state = {
+    serversInit: [],
     servers: [],
     filteredName: '',
   };
@@ -32,14 +33,20 @@ class App extends Component {
     fetchServers().then(servers => {
       this.setState({
         servers,
+        serversInit: servers
       });
     });
   }
 
   handleFilterPosition = event => {
     const filteredName = event.target.value;
+    const {serversInit} = this.state;
+    const servers = serversInit.filter(
+      server => server.name.toLowerCase().indexOf(filteredName.toLowerCase().trim()) > -1,
+    );
     this.setState({
       filteredName,
+      servers
     });
   };
 
@@ -58,7 +65,6 @@ class App extends Component {
             <Container>
               <TopBar
                 serversQty={length}
-                filteredName={filteredName}
                 handleFilterPosition={this.handleFilterPosition}
               />
               <Table servers={servers} filteredName={filteredName} />
