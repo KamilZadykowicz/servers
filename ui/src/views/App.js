@@ -4,7 +4,7 @@ import GlobalStyle from 'theme/GlobalStyle';
 import Header from 'components/Header';
 import TopBar from 'components/TopBar';
 import Table from 'components/Table';
-import { fetchServers, turnOnServer, turnOffServer } from 'helpers';
+import { fetchServers, turnOnServer, turnOffServer, rebootServer, fetchOneServer } from 'helpers';
 import { theme } from 'theme/mainTheme';
 
 const Container = styled.div`
@@ -100,6 +100,59 @@ class App extends Component {
   };
   /* eslint-enable no-param-reassign */
 
+  /* eslint-disable no-param-reassign */
+  handleRebootServer = id => {
+    rebootServer(id).then(resp => {
+      const { servers, serversInit } = this.state;
+
+      const updatedServers = servers.map(server => {
+        if (server.id === resp.id) {
+          server.status = resp.status;
+        }
+        return server;
+      });
+      const updatedInitServers = serversInit.map(server => {
+        if (server.id === resp.id) {
+          server.status = resp.status;
+        }
+        return server;
+      });
+      this.setState({
+        servers: updatedServers,
+        serversInit: updatedInitServers,
+      });
+      if (resp.status === 'REBOOTING') {
+        this[`interval${id}`] = setInterval(() => this.pingStatus(id), 1000);
+      }
+    });
+  };
+
+  pingStatus = id => {
+    fetchOneServer(id).then(resp => {
+      const { servers, serversInit } = this.state;
+      if (resp.status !== 'REBOOTING') {
+        const updatedServers = servers.map(server => {
+          if (server.id === resp.id) {
+            server.status = resp.status;
+          }
+          return server;
+        });
+        const updatedInitServers = serversInit.map(server => {
+          if (server.id === resp.id) {
+            server.status = resp.status;
+          }
+          return server;
+        });
+        this.setState({
+          servers: updatedServers,
+          serversInit: updatedInitServers,
+        });
+        clearInterval(this[`interval${id}`]);
+      }
+    });
+  };
+  /* eslint-enable no-param-reassign */
+
   render() {
     const {
       filteredName,
@@ -119,6 +172,7 @@ class App extends Component {
                 filteredName={filteredName}
                 handleTurnOnServer={this.handleTurnOnServer}
                 handleTurnOffServer={this.handleTurnOffServer}
+                handleRebootServer={this.handleRebootServer}
               />
             </Container>
           </>

@@ -135,7 +135,14 @@ class TableItem extends Component {
   };
 
   render() {
-    const { name, status, handleTurnOnServer, handleTurnOffServer, id } = this.props;
+    const {
+      id,
+      name,
+      status,
+      handleTurnOnServer,
+      handleTurnOffServer,
+      handleRebootServer,
+    } = this.props;
     const { edit } = this.state;
     return (
       <StyledRow>
@@ -159,6 +166,7 @@ class TableItem extends Component {
             status={status}
             handleTurnOnServer={handleTurnOnServer}
             handleTurnOffServer={handleTurnOffServer}
+            handleRebootServer={handleRebootServer}
           />
         ) : null}
       </StyledRow>
