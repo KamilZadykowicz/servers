@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 import TableItem from 'components/TableItem';
 
@@ -49,35 +49,66 @@ const StyledTitle = styled.p`
   }
 `;
 
-const Table = ({ servers, handleTurnOnServer, handleTurnOffServer, handleRebootServer }) => {
-  const tableShow = () => {
-    return servers.map(server => (
-      <TableItem
-        key={server.id}
-        id={server.id}
-        name={server.name}
-        status={server.status}
-        handleTurnOnServer={handleTurnOnServer}
-        handleTurnOffServer={handleTurnOffServer}
-        handleRebootServer={handleRebootServer}
-      />
-    ));
+class Table extends Component {
+  state = {
+    editId: 0,
   };
 
-  return (
-    <StyledTable>
-      <StyledRow>
-        <StyledCol1>
-          <StyledTitle>NAME</StyledTitle>
-        </StyledCol1>
-        <StyledCol2>
-          <StyledTitle>STATUS</StyledTitle>
-        </StyledCol2>
-        <StyledCol3 />
-      </StyledRow>
-      {tableShow()}
-    </StyledTable>
-  );
-};
+  handleOpenEdit = id => {
+    this.setState({
+      editId: id,
+    });
+  };
+
+  handleCloseEdit = () => {
+    this.setState({
+      editId: 0,
+    });
+  };
+
+  tableShow = () => {
+    const { servers, handleTurnOnServer, handleTurnOffServer, handleRebootServer } = this.props;
+    const { editId } = this.state;
+    let edit = false;
+    return servers.map(server => {
+      if (server.id === editId) {
+        edit = true;
+      } else {
+        edit = false;
+      }
+      return (
+        <TableItem
+          key={server.id}
+          id={server.id}
+          name={server.name}
+          status={server.status}
+          edit={edit}
+          handleCloseEdit={this.handleCloseEdit}
+          handleOpenEdit={this.handleOpenEdit}
+          handleTurnOnServer={handleTurnOnServer}
+          handleTurnOffServer={handleTurnOffServer}
+          handleRebootServer={handleRebootServer}
+        />
+      );
+    });
+  };
+
+  render() {
+    return (
+      <StyledTable>
+        <StyledRow>
+          <StyledCol1>
+            <StyledTitle>NAME</StyledTitle>
+          </StyledCol1>
+          <StyledCol2>
+            <StyledTitle>STATUS</StyledTitle>
+          </StyledCol2>
+          <StyledCol3 />
+        </StyledRow>
+        {this.tableShow()}
+      </StyledTable>
+    );
+  }
+}
 
 export default Table;

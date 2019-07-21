@@ -23,28 +23,47 @@ const StyledBtn = styled.p`
   }
 `;
 
+const CloseBtn = styled.button`
+  display: block;
+  width: 20px;
+  height: 20px;
+  background-color: #ff3322;
+  color: #ffffff;
+  font-size: 18px;
+  position: absolute;
+  right: -20px;
+  top: 0;
+  transition: transform 0.3s;
+  &:hover {
+    background-color: #570101;
+    cursor: pointer;
+    transform: scale(1.1);
+  }
+`;
+
 const ItemEdit = ({
   id,
   status,
-  showEditServer,
+  handleCloseEdit,
   handleTurnOnServer,
   handleTurnOffServer,
   handleRebootServer,
 }) => {
   const turnOn = () => {
     handleTurnOnServer(id);
-    showEditServer();
+    handleCloseEdit();
   };
   const turnOff = () => {
     handleTurnOffServer(id);
-    showEditServer();
+    handleCloseEdit();
   };
   const reboot = () => {
     handleRebootServer(id);
-    showEditServer();
+    handleCloseEdit();
   };
+
   return (
-    <StyledWrapper onBlur={showEditServer}>
+    <StyledWrapper>
       {status === 'ONLINE' ? (
         <>
           <StyledBtn onClick={turnOff}>Turn off</StyledBtn>
@@ -53,6 +72,7 @@ const ItemEdit = ({
       ) : (
         <StyledBtn onClick={turnOn}>Turn on</StyledBtn>
       )}
+      <CloseBtn onClick={handleCloseEdit}>X</CloseBtn>
     </StyledWrapper>
   );
 };

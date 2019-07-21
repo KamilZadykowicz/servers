@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ItemEdit from 'components/ItemEdit';
 import styled, { css } from 'styled-components';
 import circle from 'assets/circle.svg';
@@ -117,61 +117,44 @@ const StyledBtnIcon = styled.span`
   margin-right: 2px;
 `;
 
-class TableItem extends Component {
-  state = {
-    edit: false,
-  };
-
-  showEditServer = () => {
-    this.setState(prevState => ({
-      edit: !prevState.edit,
-    }));
-  };
-
-  hideEditServer = () => {
-    this.setState({
-      edit: false,
-    });
-  };
-
-  render() {
-    const {
-      id,
-      name,
-      status,
-      handleTurnOnServer,
-      handleTurnOffServer,
-      handleRebootServer,
-    } = this.props;
-    const { edit } = this.state;
-    return (
-      <StyledRow>
-        <StyledCol1>
-          <StyledName>{name}</StyledName>
-        </StyledCol1>
-        <StyledCol2>
-          <StyledStatus status={status}>{status}</StyledStatus>
-        </StyledCol2>
-        <StyledCol3>
-          <StyledBtn onClick={this.showEditServer}>
-            <StyledBtnIcon />
-            <StyledBtnIcon />
-            <StyledBtnIcon />
-          </StyledBtn>
-        </StyledCol3>
-        {edit && status !== 'REBOOTING' ? (
-          <ItemEdit
-            id={id}
-            showEditServer={this.showEditServer}
-            status={status}
-            handleTurnOnServer={handleTurnOnServer}
-            handleTurnOffServer={handleTurnOffServer}
-            handleRebootServer={handleRebootServer}
-          />
-        ) : null}
-      </StyledRow>
-    );
-  }
-}
+const TableItem = ({
+  id,
+  name,
+  status,
+  edit,
+  handleCloseEdit,
+  handleOpenEdit,
+  handleTurnOnServer,
+  handleTurnOffServer,
+  handleRebootServer,
+}) => {
+  return (
+    <StyledRow>
+      <StyledCol1>
+        <StyledName>{name}</StyledName>
+      </StyledCol1>
+      <StyledCol2>
+        <StyledStatus status={status}>{status}</StyledStatus>
+      </StyledCol2>
+      <StyledCol3>
+        <StyledBtn onClick={() => handleOpenEdit(id)}>
+          <StyledBtnIcon />
+          <StyledBtnIcon />
+          <StyledBtnIcon />
+        </StyledBtn>
+      </StyledCol3>
+      {edit && status !== 'REBOOTING' ? (
+        <ItemEdit
+          id={id}
+          status={status}
+          handleCloseEdit={handleCloseEdit}
+          handleTurnOnServer={handleTurnOnServer}
+          handleTurnOffServer={handleTurnOffServer}
+          handleRebootServer={handleRebootServer}
+        />
+      ) : null}
+    </StyledRow>
+  );
+};
 
 export default TableItem;
