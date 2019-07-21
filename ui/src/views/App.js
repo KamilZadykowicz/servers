@@ -4,6 +4,7 @@ import GlobalStyle from 'theme/GlobalStyle';
 import Header from 'components/Header';
 import TopBar from 'components/TopBar';
 import Table from 'components/Table';
+import Loader from 'components/Loader';
 import { fetchServers, turnOnServer, turnOffServer, rebootServer, fetchOneServer } from 'helpers';
 import { theme } from 'theme/mainTheme';
 
@@ -27,110 +28,123 @@ class App extends Component {
     serversInit: [],
     servers: [],
     filteredName: '',
+    loading: false,
+    failedLoading: false,
   };
 
   componentDidMount() {
+    this.setState({ loading: true });
     fetchServers().then(servers => {
+      if (servers) {
+        this.setState({
+          servers,
+          serversInit: servers,
+        });
+      } else {
+        this.setState({
+          failedLoading: true,
+        });
+      }
       this.setState({
-        servers,
-        serversInit: servers,
+        loading: false,
       });
     });
   }
 
-  handleFilterPosition = event => {
-    const filteredName = event.target.value;
-    const { serversInit } = this.state;
-    const servers = serversInit.filter(
-      server => server.name.toLowerCase().indexOf(filteredName.toLowerCase().trim()) > -1,
-    );
-    this.setState({
-      filteredName,
-      servers,
+  /* eslint-disable no-param-reassign */
+  handleCheckOneServer = id => {
+    fetchOneServer(id).then(response => {
+      if (response) {
+        const { servers, serversInit } = this.state;
+        const updatedServers = servers.map(server => {
+          if (server.id === response.id) {
+            server.status = response.status;
+          }
+          return server;
+        });
+        const updatedInitServers = serversInit.map(server => {
+          if (server.id === response.id) {
+            server.status = response.status;
+          }
+          return server;
+        });
+        this.setState({
+          servers: updatedServers,
+          serversInit: updatedInitServers,
+        });
+      }
     });
   };
 
-  /* eslint-disable no-param-reassign */
+  handleUpdateServers = resp => {
+    const { servers, serversInit } = this.state;
+    const updatedServers = servers.map(server => {
+      if (server.id === resp.id) {
+        server.status = resp.status;
+      }
+      return server;
+    });
+    const updatedInitServers = serversInit.map(server => {
+      if (server.id === resp.id) {
+        server.status = resp.status;
+      }
+      return server;
+    });
+    this.setState({
+      servers: updatedServers,
+      serversInit: updatedInitServers,
+    });
+  };
+
+  handleFilterPosition = event => {
+    const { serversInit } = this.state;
+    if (serversInit) {
+      const filteredName = event.target.value;
+      const servers = serversInit.filter(
+        server => server.name.toLowerCase().indexOf(filteredName.toLowerCase().trim()) > -1,
+      );
+      this.setState({
+        filteredName,
+        servers,
+      });
+    }
+  };
+
   handleTurnOnServer = id => {
     turnOnServer(id).then(resp => {
-      const { servers, serversInit } = this.state;
-
-      const updatedServers = servers.map(server => {
-        if (server.id === resp.id) {
-          server.status = resp.status;
-        }
-        return server;
-      });
-      const updatedInitServers = serversInit.map(server => {
-        if (server.id === resp.id) {
-          server.status = resp.status;
-        }
-        return server;
-      });
-      this.setState({
-        servers: updatedServers,
-        serversInit: updatedInitServers,
-      });
+      if (resp) {
+        this.handleUpdateServers(resp);
+      } else {
+        this.handleCheckOneServer(id);
+      }
     });
   };
-  /* eslint-enable no-param-reassign */
 
-  /* eslint-disable no-param-reassign */
   handleTurnOffServer = id => {
     turnOffServer(id).then(resp => {
-      const { servers, serversInit } = this.state;
-
-      const updatedServers = servers.map(server => {
-        if (server.id === resp.id) {
-          server.status = resp.status;
-        }
-        return server;
-      });
-      const updatedInitServers = serversInit.map(server => {
-        if (server.id === resp.id) {
-          server.status = resp.status;
-        }
-        return server;
-      });
-      this.setState({
-        servers: updatedServers,
-        serversInit: updatedInitServers,
-      });
+      if (resp) {
+        this.handleUpdateServers(resp);
+      } else {
+        this.handleCheckOneServer(id);
+      }
     });
   };
-  /* eslint-enable no-param-reassign */
 
-  /* eslint-disable no-param-reassign */
   handleRebootServer = id => {
     rebootServer(id).then(resp => {
-      const { servers, serversInit } = this.state;
-
-      const updatedServers = servers.map(server => {
-        if (server.id === resp.id) {
-          server.status = resp.status;
-        }
-        return server;
-      });
-      const updatedInitServers = serversInit.map(server => {
-        if (server.id === resp.id) {
-          server.status = resp.status;
-        }
-        return server;
-      });
-      this.setState({
-        servers: updatedServers,
-        serversInit: updatedInitServers,
-      });
-      if (resp.status === 'REBOOTING') {
-        this[`interval${id}`] = setInterval(() => this.pingStatus(id), 1000);
+      if (resp) {
+        this.handleUpdateServers(resp);
+      } else {
+        this.handleCheckOneServer(id);
       }
+      this[`interval${id}`] = setInterval(() => this.pingStatus(id), 1000);
     });
   };
 
   pingStatus = id => {
     fetchOneServer(id).then(resp => {
       const { servers, serversInit } = this.state;
-      if (resp.status !== 'REBOOTING') {
+      if (resp && resp.status !== 'REBOOTING') {
         const updatedServers = servers.map(server => {
           if (server.id === resp.id) {
             server.status = resp.status;
@@ -156,6 +170,8 @@ class App extends Component {
   render() {
     const {
       filteredName,
+      loading,
+      failedLoading,
       servers,
       servers: { length },
     } = this.state;
@@ -167,13 +183,17 @@ class App extends Component {
             <Header />
             <Container>
               <TopBar serversQty={length} handleFilterPosition={this.handleFilterPosition} />
-              <Table
-                servers={servers}
-                filteredName={filteredName}
-                handleTurnOnServer={this.handleTurnOnServer}
-                handleTurnOffServer={this.handleTurnOffServer}
-                handleRebootServer={this.handleRebootServer}
-              />
+              {loading && <Loader />}
+              {failedLoading && <p>Network Error.</p>}
+              {servers.length ? (
+                <Table
+                  servers={servers}
+                  filteredName={filteredName}
+                  handleTurnOnServer={this.handleTurnOnServer}
+                  handleTurnOffServer={this.handleTurnOffServer}
+                  handleRebootServer={this.handleRebootServer}
+                />
+              ) : null}
             </Container>
           </>
         </ThemeProvider>

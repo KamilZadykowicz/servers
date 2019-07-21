@@ -23,7 +23,8 @@
                     ".js"
                 ]
             }
-        ]
+        ],
+        "no-console": "off"
     },
     "settings": {
             "import/resolver": {
