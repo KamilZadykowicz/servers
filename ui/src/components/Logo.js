@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import logoImg from 'assets/logo.svg';
+import LogoText from 'components/LogoText';
 
 const LogoWrapper = styled.div`
   border-right: 2px solid #757b8f;
@@ -15,17 +16,6 @@ const LogoWrapper = styled.div`
     padding-left: 30px;
     padding-top: 10px;
     padding-bottom: 10px;
-  }
-`;
-
-const LogoText = styled.p`
-  font-family: Montserrat;
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #ffffff;
-  text-align: center;
-  @media only screen and (min-width: 992px) {
-    font-size: 1.4rem;
   }
 `;
 

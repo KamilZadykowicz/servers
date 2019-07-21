@@ -25,19 +25,26 @@ const StyledBtn = styled.p`
 
 const CloseBtn = styled.button`
   display: block;
-  width: 20px;
-  height: 20px;
+  position: absolute;
+  right: -15px;
+  top: 0;
+  width: 15px;
+  height: 15px;
+  font-size: 13px;
   background-color: #ff3322;
   color: #ffffff;
-  font-size: 18px;
-  position: absolute;
-  right: -20px;
-  top: 0;
   transition: transform 0.3s;
   &:hover {
     background-color: #570101;
     cursor: pointer;
     transform: scale(1.1);
+  }
+  @media only screen and (min-width: 992px) {
+    right: -20px;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    font-size: 18px;
   }
 `;
 
