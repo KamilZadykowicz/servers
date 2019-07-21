@@ -55,23 +55,7 @@ class App extends Component {
   handleCheckOneServer = id => {
     fetchOneServer(id).then(response => {
       if (response) {
-        const { servers, serversInit } = this.state;
-        const updatedServers = servers.map(server => {
-          if (server.id === response.id) {
-            server.status = response.status;
-          }
-          return server;
-        });
-        const updatedInitServers = serversInit.map(server => {
-          if (server.id === response.id) {
-            server.status = response.status;
-          }
-          return server;
-        });
-        this.setState({
-          servers: updatedServers,
-          serversInit: updatedInitServers,
-        });
+        this.handleUpdateServers(response);
       }
     });
   };
@@ -143,24 +127,8 @@ class App extends Component {
 
   pingStatus = id => {
     fetchOneServer(id).then(resp => {
-      const { servers, serversInit } = this.state;
       if (resp && resp.status !== 'REBOOTING') {
-        const updatedServers = servers.map(server => {
-          if (server.id === resp.id) {
-            server.status = resp.status;
-          }
-          return server;
-        });
-        const updatedInitServers = serversInit.map(server => {
-          if (server.id === resp.id) {
-            server.status = resp.status;
-          }
-          return server;
-        });
-        this.setState({
-          servers: updatedServers,
-          serversInit: updatedInitServers,
-        });
+        this.handleUpdateServers(resp);
         clearInterval(this[`interval${id}`]);
       }
     });
